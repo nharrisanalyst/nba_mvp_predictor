@@ -25,6 +25,11 @@ class MainPageTest(LiveServerTestCase):
        # test the pragraph has some text
        self.assertGreater(len(ex_paragraph_text),0)
        
+    def test_for_table(self):
+        self.browser.get(self.live_server_url)
+        table = self.browser.find_element(By.TAG_NAME, 'table')
+        rows = table.find_elements(By.TAG_NAME, 'th')
+       
        
        
         
