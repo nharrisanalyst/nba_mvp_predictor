@@ -99,3 +99,5 @@ class TestTeam(TestCase):
             losses=22,
         )
         self.assertEqual(Team.objects.count(), 1)
+        
+        
