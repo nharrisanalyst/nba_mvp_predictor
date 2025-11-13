@@ -4,6 +4,7 @@ from players.models import Player, Team
 class PlayerTest(TestCase):
     def setUp(self):
         team_1 = Team(
+            team_id = '00106',
             team_name = 'Rockets',
             wins = 52,
             losses = 20,
@@ -15,17 +16,16 @@ class PlayerTest(TestCase):
             name='Nathan Harris',
             team= team_1,
             games = 43,
-            mpg=32,
-            win_share = 2.1,
-            ppg = 27.03,
-            ws_48 = .390,
-            fg = 27.6,
+            minutes=32,
+            fgm = 27.6,
             fga = 45.2,
-            efg= 0.456,
-            ast = 4.5,
-            rbd = 5.5,
-            fta =5.2,
-            ft= 4.5,
+            points = 27.03,
+            reb = 3,
+            ast = 4,
+            fg3m= 9,
+            fg3a= 23,
+            fta =5,
+            ftm= 4,
         )
         player_1.save()
     
@@ -38,26 +38,32 @@ class PlayerTest(TestCase):
         self.assertEqual(player.team.team_name, 'Rockets')
         
     def test_create_player_add_in_null(self):
-        team_2 = Team(team_name='Jazz', wins=23, losses=59)
+        team_2 = Team(team_id = '00103', team_name='Jazz', wins=23, losses=59)
         team_2.save()
         player_2 =Player(
-            name='Nathan Harris',
+            name='Jeramiah',
             team= team_2,
             games = 43,
-            mpg=32,
-            win_share = 2.1,
-            ppg = 27.03,
-            ws_48 = .390,
-            fg = 27.6,
+            minutes=32,
+            fgm = 27.6,
             fga = 45.2,
-            efg= 0.456,
-            ast = 4.5,
-            rbd = 5.5,
-            fta =5.2,
-            ft= 4.5,
+            points = 27.03,
+            reb = 3,
+            ast = 4,
+            fg3m= 9,
+            fg3a= 23,
+            fta =5,
+            ftm= 4,
         )
         player_2.save()
         self.assertEqual(Player.objects.count(), 2)
+        
+        ##win share rank
+        player_2.win_share = 3
+        player_2.save()
+        player_2.refresh_from_db()
+        self.assertGreater(len(Player.objects.filter(win_share=3)), 0)
+        
         ##win share rank
         player_2.ws_rank= 3
         player_2.save()
@@ -86,6 +92,11 @@ class PlayerTest(TestCase):
         player_2.save()
         player_2.refresh_from_db()
         self.assertGreater(len(Player.objects.filter(trb_rank=3)), 0)
+        
+        player_2.bb_ref_link = '/players/g/gilgesh01.html'
+        player_2.save()
+        player_2.refresh_from_db()
+        self.assertGreater(len(Player.objects.filter(bb_ref_link='/players/g/gilgesh01.html')), 0)
     
     
 
@@ -94,6 +105,7 @@ class TestTeam(TestCase):
     
     def test_team_as_been_created(self):
         Team.objects.create(
+            team_id = '00101',
             team_name='rockets',
             wins=50,
             losses=22,

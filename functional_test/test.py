@@ -94,6 +94,9 @@ class MainPageTest(LiveServerTestCase):
         ws_ranked_table_th = table_th[len(table_th)-1].text
         self.assertEqual(ws_ranked_table_th, 'MVP Probability')
         
+        ## Table Row 
+        
+        tbody = table.find_element(By.TAG_NAME, 'tbody')
         
    
        
