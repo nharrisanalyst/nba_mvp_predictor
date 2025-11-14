@@ -25,11 +25,13 @@ class NBADataCreate:
     def _create_team_data(self):
         team_df = self.team_data.get_data_frames()[0]
         for row in team_df[['TeamID','TeamName', 'WINS','LOSSES']].itertuples():
+            filter_teams = list(filter(lambda team: team['id'] == row.TeamID, self.nba_data.teams))
             self.TeamModel.objects.create(
                 team_id = row.TeamID,
                 team_name = row.TeamName,
                 wins = row.WINS,
                 losses = row.LOSSES,
+                team_abr = filter_teams[0]['abbreviation']
             )
             
     def _create_player_data(self):

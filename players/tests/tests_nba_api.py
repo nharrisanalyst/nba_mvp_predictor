@@ -48,6 +48,7 @@ class NBADataCreateTest(TestCase):
         ## test we have a team named the Thunder
         thunder = Team.objects.get(team_name='Thunder')
         self.assertEqual(thunder.team_name, 'Thunder')
+        self.assertEqual(thunder.team_abr, 'OKC')
         
         ## test the player data was made 
         all_players = Player.objects.all()

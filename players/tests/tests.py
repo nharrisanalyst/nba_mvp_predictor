@@ -8,6 +8,7 @@ class PlayerTest(TestCase):
             team_name = 'Rockets',
             wins = 52,
             losses = 20,
+            team_abr='HOU'
         )
         
         team_1.save()
@@ -38,7 +39,7 @@ class PlayerTest(TestCase):
         self.assertEqual(player.team.team_name, 'Rockets')
         
     def test_create_player_add_in_null(self):
-        team_2 = Team(team_id = '00103', team_name='Jazz', wins=23, losses=59)
+        team_2 = Team(team_id = '00103', team_name='Jazz', wins=23, losses=59, team_abr='HGO')
         team_2.save()
         player_2 =Player(
             name='Jeramiah',
@@ -109,7 +110,19 @@ class TestTeam(TestCase):
             team_name='rockets',
             wins=50,
             losses=22,
+            team_abr='HOU'
         )
         self.assertEqual(Team.objects.count(), 1)
         
+    def test_bbref_url(self):
+        Team.objects.create(
+            team_id = '001010',
+            team_name='Kings',
+            wins=50,
+            losses=22,
+            team_abr='SAC'
+        )
+        
+        sac = Team.objects.get(team_name='Kings')
+        self.assertEqual(sac.bbref_url, '/teams/SAC/2026.html')
         

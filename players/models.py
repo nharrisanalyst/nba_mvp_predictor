@@ -5,6 +5,11 @@ class Team(models.Model):
     team_name = models.CharField(max_length=300)
     wins = models.IntegerField()
     losses = models.IntegerField()
+    team_abr = models.CharField(max_length=5, unique=True, null=False)
+    
+    @property
+    def bbref_url(self):
+        return f'/teams/{self.team_abr}/2026.html'
 
 
 
